@@ -1,0 +1,22 @@
+name: Atlas
+version: '1.0'
+main: atlas.atlas.Atlas
+api-version: 1.20
+prefix: ATLAS
+authors: [Daanylo]
+depend: [ ProtocolLib ]
+commands:
+  atlas:
+    usage: /atlas
+  claimwand:
+    usage: /claimwand
+    aliases: cw
+  settlement:
+    usage: /settlement
+    aliases: s
+  market:
+    usage: /market
+    aliases: m
+  admin:
+    usage: /admin
+    aliases: a
