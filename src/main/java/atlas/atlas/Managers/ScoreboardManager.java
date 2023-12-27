@@ -24,11 +24,12 @@ public class ScoreboardManager {
 
     public void setupScoreboard(Player player) {
         new BukkitRunnable() {
-            final String playername = player.getName();
+            final UUID uuid = player.getUniqueId();
             @Override
             public void run() {
-                if (Bukkit.getOfflinePlayer(playername).isOnline()) {
+                if (Bukkit.getOfflinePlayer(uuid).isOnline()) {
                     updateBoard(player);
+                    player.setPlayerListHeaderFooter("You are playing on §2§lAt§a§llas", "Currently " + Bukkit.getOnlinePlayers().size() + "/" + Bukkit.getMaxPlayers() + " players online");
                 } else {
                     cancel();
                 }

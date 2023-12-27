@@ -75,6 +75,9 @@ public class NameTag {
         new BukkitRunnable() {
             @Override
             public void run () {
+                if (!Bukkit.getOnlinePlayers().contains(p)) {
+                    this.cancel();
+                }
                 String prefix;
                 Settlement settlement = settlementManager.getSettlement(p);
                 if (settlement != null) {

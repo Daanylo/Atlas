@@ -1,8 +1,6 @@
 package atlas.atlas.Commands;
 
-import atlas.atlas.Commands.SubCommands.Admin.AdminGoldCommand;
-import atlas.atlas.Commands.SubCommands.Admin.AdminNPCCommand;
-import atlas.atlas.Commands.SubCommands.Admin.AdminSetSpawnAreaCommand;
+import atlas.atlas.Commands.SubCommands.Admin.*;
 import atlas.atlas.Commands.SubCommands.Market.MarketCreateCommand;
 import atlas.atlas.Commands.SubCommands.SubCommand;
 import org.bukkit.command.Command;
@@ -25,6 +23,7 @@ public class AdminCommandHandler implements CommandExecutor {
         commands.put("gold", new AdminGoldCommand());
         commands.put("npc", new AdminNPCCommand());
         commands.put("setspawnarea", new AdminSetSpawnAreaCommand());
+        commands.put("setspawn", new AdminSetSpawnCommand());
     }
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {

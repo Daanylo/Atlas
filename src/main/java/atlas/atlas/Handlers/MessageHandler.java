@@ -18,10 +18,10 @@ public class MessageHandler implements Listener {
         Player p = e.getPlayer();
         if (settlementManager.getSettlement(p) != null) {
             Settlement settlement = settlementManager.getSettlement(p);
-            e.setFormat(ChatColor.GRAY + "[" + settlement.getName() + ChatColor.GRAY + "] " + ChatColor.GOLD + p.getName() + ChatColor.RESET + ": " + e.getMessage());
+            e.setFormat("§f[" + settlement.getName() + "§r] " + p.getName() + ": " + e.getMessage());
         }
         if (settlementManager.getSettlement(p) == null) {
-            e.setFormat(ChatColor.GRAY + p.getName() + ChatColor.RESET + ": " + e.getMessage());
+            e.setFormat(p.getName() + ": " + e.getMessage());
         }
     }
 }

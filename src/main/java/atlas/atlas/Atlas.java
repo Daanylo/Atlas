@@ -56,6 +56,7 @@ public final class Atlas extends JavaPlugin {
         getCommand("settlement").setExecutor(new SettlementCommandHandler());
         getCommand("market").setExecutor(new MarketCommandHandler());
         getCommand("admin").setExecutor(new AdminCommandHandler());
+        getCommand("spawn").setExecutor(new SpawnCommand());
 
         getCommand("settlement").setTabCompleter(new SettlementTabCompleter());
         getCommand("market").setTabCompleter(new MarketTabCompleter());
