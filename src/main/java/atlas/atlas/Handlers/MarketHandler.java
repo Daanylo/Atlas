@@ -6,6 +6,7 @@ import atlas.atlas.Managers.SettlementManager;
 import atlas.atlas.Managers.MarketManager;
 import atlas.atlas.Markets.Market;
 import atlas.atlas.Players.AtlasPlayer;
+import atlas.atlas.Regions.Settlement;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -41,7 +42,7 @@ public class MarketHandler implements Listener {
             Chest chest = (Chest) event.getClickedBlock().getState();
             Market market = marketManager.getCreatingMarket().get(player.getUniqueId());
             market.setChest(chest);
-            openMarketCreateMenu(market, player);
+            openMarketCreateMenu(player);
         }
     }
     @EventHandler
@@ -286,19 +287,19 @@ public class MarketHandler implements Listener {
             switch (itemInHand.getType()) {
                 case GOLD_NUGGET:
                     amountToAdd = itemInHand.getAmount() * 0.01;
-                    atlasPlayer.setGold(atlasPlayer.getGold() + amountToAdd);
+//                    atlasPlayer.setGold(atlasPlayer.getGold() + amountToAdd);
                     player.sendMessage("§aSuccessfully sold §f" + itemInHand.getAmount() + " §6Gold Nuggets §afor §6" + decimalFormat.format(amountToAdd) + "g§a.");
                     itemInHand.setAmount(0);
                     break;
                 case GOLD_INGOT:
                     amountToAdd = itemInHand.getAmount() * 0.09;
-                    atlasPlayer.setGold(atlasPlayer.getGold() + amountToAdd);
+//                    atlasPlayer.setGold(atlasPlayer.getGold() + amountToAdd);
                     player.sendMessage("§aSuccessfully sold §f" + itemInHand.getAmount() + " §6Gold Ingots §afor §6" + decimalFormat.format(amountToAdd) + "g§a.");
                     itemInHand.setAmount(0);
                     break;
                 case GOLD_BLOCK:
                     amountToAdd = itemInHand.getAmount() * 0.81;
-                    atlasPlayer.setGold(atlasPlayer.getGold() + amountToAdd);
+//                    atlasPlayer.setGold(atlasPlayer.getGold() + amountToAdd);
                     player.sendMessage("§aSuccessfully sold §f" + itemInHand.getAmount() + " §6Gold Blocks §afor §6" + decimalFormat.format(amountToAdd) + "g§a.");
                     itemInHand.setAmount(0);
                     break;
@@ -342,11 +343,6 @@ public class MarketHandler implements Listener {
             player.sendMessage("§cYou dont have enough §6Gold§c.");
             player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1);
             return;
-        }
-        else if (player.getInventory().firstEmpty() == -1) {
-            player.sendMessage("§cInventory is full.");
-            player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1);
-            return;
         } else if (market.getStock() < amount) {
             player.sendMessage("§cMarket is out of stock.");
             player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1);
@@ -355,8 +351,81 @@ public class MarketHandler implements Listener {
         Inventory chestInventory = market.getChest().getBlockInventory();
         ItemStack newItem = new ItemStack(market.getSellItem());
         newItem.setAmount(amount);
+        Inventory inventory = player.getInventory();
+
+        double remainingCost = market.getPrice() * amount;
+
+        for (int j = 0; j < 3; j++) {
+            for (int i = 0; i < inventory.getSize(); i++) {
+                if (inventory.getItem(i) == null) {
+                    continue;
+                }
+                if (j == 0) {
+                    if (inventory.getItem(i).getType().equals(Material.GOLD_BLOCK)) {
+                        ItemStack itemStack = inventory.getItem(i);
+                        for (int k = itemStack.getAmount(); k > 0 && remainingCost >= 0.81; k--) {
+                            itemStack.setAmount(k - 1);
+                            remainingCost -= 0.81;
+                        }
+                    }
+                }
+                if (j == 1) {
+                    if (inventory.getItem(i).getType().equals(Material.GOLD_INGOT)) {
+                        ItemStack itemStack = inventory.getItem(i);
+                        for (int k = itemStack.getAmount(); k > 0 && remainingCost >= 0.09; k--) {
+                            itemStack.setAmount(k - 1);
+                            remainingCost -= 0.09;
+                        }
+                    }
+                }
+                if (j == 2) {
+                    if (inventory.getItem(i).getType().equals(Material.GOLD_NUGGET)) {
+                        ItemStack itemStack = inventory.getItem(i);
+                        for (int k = itemStack.getAmount(); k > 0 && remainingCost >= 0.01; k--) {
+                            itemStack.setAmount(k - 1);
+                            remainingCost -= 0.01;
+                        }
+                    }
+                }
+            }
+        }
+        int owedIngots = 0;
+        int owedNuggets = 0;
+        if (remainingCost > 0) {
+            for (int j = 0; j < 2; j++) {
+                for (int i = 0; i < inventory.getSize(); i++) {
+                    if (remainingCost <= 0) {
+                        break;
+                    }
+                    if (inventory.getItem(i) == null) {
+                        continue;
+                    }
+                    if (j == 0) {
+                        if (inventory.getItem(i).getType().equals(Material.GOLD_INGOT)) {
+                            ItemStack itemStack = inventory.getItem(i);
+                            itemStack.setAmount(itemStack.getAmount() - 1);
+                            owedNuggets += (int) (9 - (remainingCost * 100));
+                            remainingCost -= 0.09;
+                        }
+                    }
+                    if (j == 1) {
+                        if (inventory.getItem(i).getType().equals(Material.GOLD_BLOCK)) {
+                            ItemStack itemStack = inventory.getItem(i);
+                            itemStack.setAmount(itemStack.getAmount() - 1);
+                            owedNuggets += (int) ( 81 - (remainingCost * 100));
+                            remainingCost -= 0.81;
+                        }
+                    }
+                }
+            }
+        }
+        if (owedNuggets > 8) {
+            owedIngots = (int) Math.floor((double) owedNuggets / 9);
+            owedNuggets -= owedIngots * 9;
+        }
 
         int remaining = amount;
+
         for (int i = 0; i < chestInventory.getSize(); i++) {
             if (chestInventory.getItem(i) != null) {
                 ItemStack itemStack = chestInventory.getItem(i);
@@ -375,15 +444,32 @@ public class MarketHandler implements Listener {
                 }
             }
         }
+        ItemStack owedIngotsItem = new ItemStack(Material.GOLD_INGOT);
+        ItemStack owedNuggetsItem = new ItemStack(Material.GOLD_NUGGET);
+        owedIngotsItem.setAmount(owedIngots);
+        owedNuggetsItem.setAmount(owedNuggets);
 
-        player.getInventory().addItem(newItem);
-        atlasPlayer.setGold(atlasPlayer.getGold() - newItem.getAmount() * market.getPrice());
-        atlasPlayerManager.getAtlasPlayer(market.getOwner()).setGold(atlasPlayerManager.getAtlasPlayer(market.getOwner()).getGold() + newItem.getAmount() * market.getPrice());
+        if (player.getInventory().firstEmpty() == -1) {
+            player.getLocation().getWorld().dropItem(player.getLocation(), newItem);
+        } else {
+            player.getInventory().addItem(newItem);
+        }
+        if (player.getInventory().firstEmpty() == -1) {
+            player.getLocation().getWorld().dropItem(player.getLocation(), owedIngotsItem);
+        } else {
+            player.getInventory().addItem(owedIngotsItem);
+        }
+        if (player.getInventory().firstEmpty() == -1) {
+            player.getLocation().getWorld().dropItem(player.getLocation(), owedNuggetsItem);
+        } else {
+            player.getInventory().addItem(owedNuggetsItem);
+        }
+
 
         DecimalFormat decimalFormat = new DecimalFormat("0.00");
         player.sendMessage("§aSuccessfully bought §f" + amount + " " + newItem.getType().name() + " §afor §6" + decimalFormat.format(amount * market.getPrice()) + "g");
     }
-    public void openMarketCreateMenu(Market market, Player player) {
+    public void openMarketCreateMenu(Player player) {
         Inventory marketCreateMenu = Bukkit.createInventory(null, 27, "Create Market");
 
         ItemStack cancelButton = new ItemStack(Material.RED_STAINED_GLASS_PANE);

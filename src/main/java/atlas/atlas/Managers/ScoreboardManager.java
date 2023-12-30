@@ -3,24 +3,35 @@ package atlas.atlas.Managers;
 import atlas.atlas.Atlas;
 import atlas.atlas.Players.AtlasPlayer;
 import atlas.atlas.Regions.Settlement;
+import net.kyori.adventure.bossbar.BossBar;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarStyle;
+import org.bukkit.entity.Boss;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.*;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class ScoreboardManager {
 
-    static SettlementManager settlementManager = Atlas.getInstance().getSettlementManager();
+    SettlementManager settlementManager = Atlas.getInstance().getSettlementManager();
 
     HashMap<UUID, Scoreboard> scoreboards = new HashMap<>();
+    static HashMap<UUID, BossBar> playerBossBars = new HashMap<>();
+    public static HashMap<UUID, BossBar> getPlayerBossBars() {
+        return playerBossBars;
+    }
 
     HashMap<UUID, Scoreboard> getScoreboards() {
         return scoreboards;
     }
+
 
     public void setupScoreboard(Player player) {
         new BukkitRunnable() {
@@ -29,7 +40,6 @@ public class ScoreboardManager {
             public void run() {
                 if (Bukkit.getOfflinePlayer(uuid).isOnline()) {
                     updateBoard(player);
-                    player.setPlayerListHeaderFooter("You are playing on §2§lAt§a§llas", "Currently " + Bukkit.getOnlinePlayers().size() + "/" + Bukkit.getMaxPlayers() + " players online");
                 } else {
                     cancel();
                 }
@@ -70,6 +80,18 @@ public class ScoreboardManager {
         amountLine.setScore(5);
         p.setScoreboard(scoreboard);
         scoreboards.put(p.getUniqueId(), scoreboard);
-    }
 
+        p.setPlayerListHeaderFooter("You are playing on §2§lAt§a§llas", "Currently " + Bukkit.getOnlinePlayers().size() + "/" + Bukkit.getMaxPlayers() + " players online");
+
+        BossBar customBossBar = BossBar.bossBar(Component.text("Current Settlement: "), 1.0f, BossBar.Color.BLUE, BossBar.Overlay.PROGRESS);
+        if (!playerBossBars.containsKey(p.getUniqueId())) {
+            customBossBar.addViewer(p);
+            playerBossBars.put(p.getUniqueId(), customBossBar);
+        }
+        String location = "None";
+        if (settlementManager.getSettlement(p.getLocation()) != null) {
+            location = settlementManager.getSettlement(p.getLocation()).getName();
+        }
+        playerBossBars.get(p.getUniqueId()).name(Component.text("Current Settlement: " + location));
+    }
 }

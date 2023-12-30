@@ -15,12 +15,11 @@ public class AdminCommandHandler implements CommandExecutor {
     public HashMap<String, SubCommand> commands;
 
     public AdminCommandHandler() {
-        this.commands = new HashMap<String, SubCommand>();
+        this.commands = new HashMap<>();
         registerCommands();
     }
 
     public void registerCommands() {
-        commands.put("gold", new AdminGoldCommand());
         commands.put("npc", new AdminNPCCommand());
         commands.put("setspawnarea", new AdminSetSpawnAreaCommand());
         commands.put("setspawn", new AdminSetSpawnCommand());

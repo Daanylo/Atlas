@@ -22,7 +22,7 @@ public class AdminSetSpawnAreaCommand extends SubCommand {
             p.sendMessage("§cThat selection overlaps a settlement.");
             return;
         }
-        spawnManager.setSpawnArea(selection);
+        spawnManager.setSpawnArea(new Selection(selection.getxA(), selection.getzA(), selection.getxB(), selection.getzB()));
         selectionManager.selections.remove(p.getUniqueId());
         p.sendMessage("§aSpawn area set successfully");
     }

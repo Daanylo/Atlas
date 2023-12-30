@@ -51,11 +51,11 @@ public class SettlementClaimCommand extends SubCommand {
             p.sendMessage("§cThat selection overlaps another settlement.");
             return false;
         }
-        if (selection.getArea() > 16) {
+        if (selection.getArea() > 10000) {
             p.sendMessage("§cThe selected area is too big. Please select an area smaller than §e16 §cblocks.");
             return false;
         }
-        if (selection.getArea() < 4) {
+        if (selection.getArea() < 100) {
             p.sendMessage("§cThe selected area is too small. Please select an area bigger than §e4 §cblocks.");
             return false;
         }

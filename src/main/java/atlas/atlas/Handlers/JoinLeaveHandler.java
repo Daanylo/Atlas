@@ -2,14 +2,14 @@ package atlas.atlas.Handlers;
 
 import atlas.atlas.Atlas;
 import atlas.atlas.Managers.AtlasPlayerManager;
-import atlas.atlas.Managers.NameTag;
+import atlas.atlas.Managers.ScoreboardManager;
+import atlas.atlas.Players.NameTag;
 import atlas.atlas.Managers.SettlementManager;
 import atlas.atlas.Players.AtlasPlayer;
-import atlas.atlas.Regions.Settlement;
 import atlas.atlas.Utils.MarketUtil;
+import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -28,7 +28,7 @@ public class JoinLeaveHandler implements Listener {
         }
         Atlas.getInstance().getScoreboardManager().setupScoreboard(p);
         if (atlasPlayerManager.getAtlasPlayer(p.getUniqueId()) == null) {
-            atlasPlayerManager.getAtlasPlayers().add(new AtlasPlayer(p.getUniqueId(), 0));
+            atlasPlayerManager.getAtlasPlayers().add(new AtlasPlayer(p.getUniqueId()));
         }
         if (Bukkit.getOnlinePlayers().size() == 1) {
             MarketUtil.loadMarkets();
@@ -46,5 +46,8 @@ public class JoinLeaveHandler implements Listener {
         if (Bukkit.getOnlinePlayers().size() == 1) {
             MarketUtil.saveMarkets();
         }
+        BossBar bossBar = ScoreboardManager.getPlayerBossBars().get(p.getUniqueId());
+        bossBar.removeViewer(p);
+        ScoreboardManager.getPlayerBossBars().remove(p.getUniqueId());
     }
 }

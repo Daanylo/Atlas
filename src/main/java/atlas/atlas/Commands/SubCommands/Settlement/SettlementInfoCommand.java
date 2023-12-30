@@ -14,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -44,8 +45,9 @@ public class SettlementInfoCommand extends SubCommand {
         ItemMeta infoMeta = info.getItemMeta();
         infoMeta.setDisplayName(settlement.getName());
         List<String> lore = new ArrayList<>();
+        DecimalFormat decimalFormat = new DecimalFormat("0.00");
         lore.add("§fLeader: " + Bukkit.getOfflinePlayer(settlement.getLeader()).getName());
-        lore.add("§fReserves: §6" + settlement.getReserves() + "g");
+        lore.add("§fReserves: §6" + decimalFormat.format(settlement.getReserves()) + "g");
         lore.add("§fLevel: §b" + settlement.getLevel());
         infoMeta.setLore(lore);
         info.setItemMeta(infoMeta);

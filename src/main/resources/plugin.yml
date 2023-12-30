@@ -22,3 +22,6 @@ commands:
     aliases: a
   spawn:
     usage: /spawn
+  tellcoords:
+    usage: /tellcoords
+    aliases: tc

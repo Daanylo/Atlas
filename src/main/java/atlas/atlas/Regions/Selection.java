@@ -78,4 +78,28 @@ public class Selection {
         }
         return false;
     }
+
+    public Location findNearestLocation(Location playerLocation) {
+        Location nearestLocation = null;
+        double minDistance = Double.MAX_VALUE;
+
+        int minX = Math.min(xA, xB);
+        int maxX = Math.max(xA, xB);
+        int minZ = Math.min(zA, zB);
+        int maxZ = Math.max(zA, zB);
+        double playerX = playerLocation.getX();
+        double playerZ = playerLocation.getZ();
+
+        for (int x = minX; x <= maxX; x++) {
+            for (int z = minZ; z <= maxZ; z++) {
+                int distance = (int) Math.sqrt(Math.pow((x - playerX), 2) + Math.pow((z - playerZ), 2));
+
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    nearestLocation = new Location(playerLocation.getWorld(), x, playerLocation.getY(), z);
+                }
+            }
+        }
+        return nearestLocation;
+    }
 }

@@ -15,7 +15,7 @@ public class SettlementCommandHandler implements CommandExecutor {
     public HashMap<String, SubCommand> commands;
 
     public SettlementCommandHandler() {
-        this.commands = new HashMap<String, SubCommand>();
+        this.commands = new HashMap<>();
         registerCommands();
     }
 
@@ -33,6 +33,8 @@ public class SettlementCommandHandler implements CommandExecutor {
         commands.put("list", new SettlementListCommand());
         commands.put("setleader", new SettlementSetLeaderCommand());
         commands.put("info", new SettlementInfoCommand());
+        commands.put("donate", new SettlementDonateCommand());
+        commands.put("resize", new SettlementResizeCommand());
     }
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {

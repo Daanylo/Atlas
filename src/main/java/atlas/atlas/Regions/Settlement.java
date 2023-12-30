@@ -12,10 +12,10 @@ public class Settlement {
     private ArrayList<UUID> members;
     private Selection area;
     private Location home;
-    private int reserves;
+    private double reserves;
     private int level;
 
-    public Settlement(String name, UUID leaderUUID, ArrayList<UUID> members, Selection area, Location home, int reserves, int level) {
+    public Settlement(String name, UUID leaderUUID, ArrayList<UUID> members, Selection area, Location home, double reserves, int level) {
         this.name = name;
         this.leaderUUID = leaderUUID;
         this.members = members;
@@ -61,10 +61,10 @@ public class Settlement {
     public void setHome(Location home) {
         this.home = home;
     }
-    public int getReserves() {
+    public double getReserves() {
         return reserves;
     }
-    public void setReserves(int reserves) {
+    public void setReserves(double reserves) {
         this.reserves = reserves;
     }
     public int getLevel() {

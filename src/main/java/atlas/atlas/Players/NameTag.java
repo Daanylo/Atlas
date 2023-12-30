@@ -1,6 +1,7 @@
-package atlas.atlas.Managers;
+package atlas.atlas.Players;
 
 import atlas.atlas.Atlas;
+import atlas.atlas.Managers.SettlementManager;
 import atlas.atlas.Regions.Settlement;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
@@ -18,13 +19,12 @@ import java.util.Collections;
 import java.util.Optional;
 import java.util.UUID;
 
-import static atlas.atlas.Managers.ScoreboardManager.settlementManager;
-
 public class NameTag {
 
     PacketContainer packet;
     InternalStructure structure;
     Player player;
+    SettlementManager settlementManager = Atlas.getInstance().getSettlementManager();
 
     public NameTag(Player player) {
         this.player = player;

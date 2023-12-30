@@ -64,9 +64,9 @@ public class SettlementInviteCommand extends SubCommand {
     public void sendInvite(Player player, Settlement settlement) {
         String settlementID = settlementManager.getSettlementID(settlement);
         TextComponent accept = new TextComponent(ChatColor.GREEN + ChatColor.BOLD.toString() + "Accept ");
-        accept.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/settlement accept " + settlement.getName()));
+        accept.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/settlement accept " + settlement.getRawName()));
         TextComponent reject = new TextComponent(ChatColor.RED + ChatColor.BOLD.toString() + "Reject");
-        reject.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/settlement reject " + settlement.getName()));
+        reject.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/settlement reject " + settlement.getRawName()));
         player.sendMessage("§eYou have been invited to join " + settlement.getName() + "§e. ");
         player.spigot().sendMessage(accept, reject);
 

@@ -14,12 +14,11 @@ public class CommandHandler implements CommandExecutor {
     private HashMap<String, SubCommand> commands;
 
     public CommandHandler() {
-        this.commands = new HashMap<String, SubCommand>();
+        this.commands = new HashMap<>();
         registerCommands();
     }
 
     public void registerCommands() {
-//        commands.put("claim", new ClaimCommand());
     }
 
 

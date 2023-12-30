@@ -86,7 +86,7 @@ public class SettlementUtil {
                 }
                 Selection area = new Selection(fc.getInt(settlementID + ".xA"), fc.getInt(settlementID + ".zA"), fc.getInt(settlementID + ".xB"), fc.getInt(settlementID + ".zB"));
                 Location home = (Location) fc.get(settlementID + ".home");
-                int reserves = fc.getInt(settlementID + ".reserves");
+                double reserves = fc.getDouble(settlementID + ".reserves");
                 int level = fc.getInt(settlementID + ".level");
                 Settlement settlement = new Settlement(name, leaderUUID, members, area, home, reserves, level);
                 settlementManager.addSettlement(settlementID, settlement);

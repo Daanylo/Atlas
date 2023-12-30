@@ -2,9 +2,10 @@ package atlas.atlas.Utils;
 
 import atlas.atlas.Atlas;
 import atlas.atlas.Managers.AtlasPlayerManager;
+import atlas.atlas.Managers.ScoreboardManager;
 import atlas.atlas.Players.AtlasPlayer;
+import net.kyori.adventure.bossbar.BossBar;
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -35,12 +36,15 @@ public class AtlasPlayerUtil {
     public static void saveAtlasPlayers() {
         File atlasPlayersFile = new File(Atlas.getInstance().getDataFolder() + "/data/" + "atlasplayers.yml");
         FileConfiguration fc = new YamlConfiguration();
+        for (UUID uuid : ScoreboardManager.getPlayerBossBars().keySet()) {
+            BossBar bossBar = ScoreboardManager.getPlayerBossBars().get(uuid);
+            bossBar.removeViewer(Bukkit.getPlayer(uuid));
+        }
         ArrayList<AtlasPlayer> atlasPlayers = atlasPlayerManager.getAtlasPlayers();
         if (atlasPlayers != null) {
             for (AtlasPlayer atlasPlayer : atlasPlayers) {
                 UUID uuid = atlasPlayer.getUUID();
-                double gold = atlasPlayer.getGold();
-                fc.set(uuid.toString() + ".gold", gold);
+                fc.set(uuid.toString() + ".xp", 0);
             }
             try {
                 fc.save(atlasPlayersFile);
@@ -63,8 +67,7 @@ public class AtlasPlayerUtil {
             Set<String> playerUUIDs = fc.getKeys(false);
             for (String playerUUID : playerUUIDs) {
                 UUID uuid = UUID.fromString(playerUUID);
-                double gold = fc.getDouble(uuid + ".gold");
-                AtlasPlayer atlasPlayer = new AtlasPlayer(uuid, gold);
+                AtlasPlayer atlasPlayer = new AtlasPlayer(uuid);
                 atlasPlayers.add(atlasPlayer);
             }
         }

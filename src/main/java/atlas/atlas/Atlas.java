@@ -3,6 +3,7 @@ package atlas.atlas;
 import atlas.atlas.Commands.*;
 import atlas.atlas.Handlers.*;
 import atlas.atlas.Managers.*;
+import atlas.atlas.Players.NameTag;
 import atlas.atlas.TabCompleters.AdminTabCompleter;
 import atlas.atlas.TabCompleters.MarketTabCompleter;
 import atlas.atlas.Utils.AtlasPlayerUtil;
@@ -57,6 +58,7 @@ public final class Atlas extends JavaPlugin {
         getCommand("market").setExecutor(new MarketCommandHandler());
         getCommand("admin").setExecutor(new AdminCommandHandler());
         getCommand("spawn").setExecutor(new SpawnCommand());
+        getCommand("tellcoords").setExecutor(new TellCoordsCommand());
 
         getCommand("settlement").setTabCompleter(new SettlementTabCompleter());
         getCommand("market").setTabCompleter(new MarketTabCompleter());
@@ -70,6 +72,7 @@ public final class Atlas extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new MessageHandler(), this);
         getServer().getPluginManager().registerEvents(new TeleportHandler(), this);
         getServer().getPluginManager().registerEvents(new MarketHandler(), this);
+        getServer().getPluginManager().registerEvents(new CompassHandler(), this);
 
         for (Player p : Bukkit.getOnlinePlayers()) {
             scoreboardManager.setupScoreboard(p);
