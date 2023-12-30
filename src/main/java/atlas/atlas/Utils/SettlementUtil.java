@@ -8,6 +8,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BannerMeta;
 
 import java.io.File;
 import java.util.*;
@@ -51,6 +53,7 @@ public class SettlementUtil {
                 fc.set(settlementID + ".zA", settlement.getArea().getzA());
                 fc.set(settlementID + ".xB", settlement.getArea().getxB());
                 fc.set(settlementID + ".zB", settlement.getArea().getzB());
+                fc.set(settlementID + ".banner", settlement.getBanner());
                 fc.set(settlementID + ".home", settlement.getHome());
                 fc.set(settlementID + ".reserves", settlement.getReserves());
                 fc.set(settlementID + ".level", settlement.getLevel());
@@ -86,9 +89,10 @@ public class SettlementUtil {
                 }
                 Selection area = new Selection(fc.getInt(settlementID + ".xA"), fc.getInt(settlementID + ".zA"), fc.getInt(settlementID + ".xB"), fc.getInt(settlementID + ".zB"));
                 Location home = (Location) fc.get(settlementID + ".home");
+                ItemStack banner = (ItemStack) fc.get(settlementID + ".banner");
                 double reserves = fc.getDouble(settlementID + ".reserves");
                 int level = fc.getInt(settlementID + ".level");
-                Settlement settlement = new Settlement(name, leaderUUID, members, area, home, reserves, level);
+                Settlement settlement = new Settlement(name, leaderUUID, members, area, home, banner, reserves, level);
                 settlementManager.addSettlement(settlementID, settlement);
             }
         }

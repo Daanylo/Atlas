@@ -1,6 +1,7 @@
 package atlas.atlas.Regions;
 
 import org.bukkit.Location;
+import org.bukkit.World;
 
 public class Selection {
 
@@ -57,6 +58,9 @@ public class Selection {
         return Math.max(getzA(), getzB());
     }
     public boolean isWithin(Location location) {
+        if (!location.getWorld().getEnvironment().equals(World.Environment.NORMAL)) {
+            return false;
+        }
         int locX = location.getBlockX();
         int locZ = location.getBlockZ();
         int minX = Math.min(xA, xB);

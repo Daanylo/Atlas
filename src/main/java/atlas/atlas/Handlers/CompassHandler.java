@@ -14,14 +14,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class CompassHandler implements Listener {
 
@@ -67,12 +65,13 @@ public class CompassHandler implements Listener {
         int i = 0;
         for (String settlementID : settlementManager.getSettlements().keySet()) {
             Settlement settlement = settlementManager.getSettlements().get(settlementID);
-            ItemStack itemStack = new ItemStack(Material.GRASS_BLOCK);
+            ItemStack itemStack = new ItemStack(settlement.getBanner());
             ItemMeta meta = itemStack.getItemMeta();
             List<String> lore = new ArrayList<>();
             lore.add("§r§aClick to track");
             meta.setLore(lore);
-            meta.setDisplayName(settlement.getName());
+            meta.setDisplayName("§r" + settlement.getName());
+            meta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
             itemStack.setItemMeta(meta);
             compassMenu.setItem(i, itemStack);
             if (i < compassMenu.getSize()) {

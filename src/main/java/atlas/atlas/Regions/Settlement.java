@@ -1,6 +1,7 @@
 package atlas.atlas.Regions;
 
 import org.bukkit.Location;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -12,15 +13,17 @@ public class Settlement {
     private ArrayList<UUID> members;
     private Selection area;
     private Location home;
+    private ItemStack banner;
     private double reserves;
     private int level;
 
-    public Settlement(String name, UUID leaderUUID, ArrayList<UUID> members, Selection area, Location home, double reserves, int level) {
+    public Settlement(String name, UUID leaderUUID, ArrayList<UUID> members, Selection area, Location home,ItemStack banner, double reserves, int level) {
         this.name = name;
         this.leaderUUID = leaderUUID;
         this.members = members;
         this.area = area;
         this.home = home;
+        this.banner = banner;
         this.reserves = reserves;
         this.level = level;
     }
@@ -60,6 +63,12 @@ public class Settlement {
     }
     public void setHome(Location home) {
         this.home = home;
+    }
+    public ItemStack getBanner() {
+        return banner;
+    }
+    public void setBanner(ItemStack banner) {
+        this.banner = banner;
     }
     public double getReserves() {
         return reserves;

@@ -7,7 +7,9 @@ import atlas.atlas.Commands.SubCommands.SubCommand;
 import atlas.atlas.Regions.Settlement;
 import atlas.atlas.Regions.Selection;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -36,7 +38,7 @@ public class SettlementClaimCommand extends SubCommand {
             String randomUUID = UUID.randomUUID().toString();
             ArrayList<UUID> members = new ArrayList<>();
             members.add(p.getUniqueId());
-            settlementManager.addSettlement(randomUUID, new Settlement(ChatColor.translateAlternateColorCodes('&', args[1]), p.getUniqueId(), members, selection, null, 0, 0));
+            settlementManager.addSettlement(randomUUID, new Settlement(ChatColor.translateAlternateColorCodes('&', args[1]), p.getUniqueId(), members, selection, null, new ItemStack(Material.WHITE_BANNER), 0, 0));
             p.sendMessage("§aYou have succesfully founded a new settlement!");
             selectionManager.selections.remove(p.getUniqueId());
         }

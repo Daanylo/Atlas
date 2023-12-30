@@ -9,6 +9,7 @@ import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
@@ -72,6 +73,9 @@ public class SettlementHandler implements Listener {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
         Location loc = p.getLocation();
+        if (!loc.getWorld().getEnvironment().equals(World.Environment.NORMAL)) {
+            return;
+        }
         if (e.getFrom().getX() != e.getTo().getX() || e.getFrom().getZ() != e.getTo().getZ()) {
             enteredSpawn.putIfAbsent(uuid, false);
             enteredSettlements.putIfAbsent(uuid, new HashMap<>());

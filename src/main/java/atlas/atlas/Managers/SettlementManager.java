@@ -2,10 +2,7 @@ package atlas.atlas.Managers;
 
 import atlas.atlas.Regions.Settlement;
 import org.apache.commons.lang3.StringUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -71,6 +68,9 @@ public class SettlementManager {
         return null;
     }
     public Settlement getSettlement(Location loc) {
+        if (!loc.getWorld().getEnvironment().equals(World.Environment.NORMAL)) {
+            return null;
+        }
         for (String settlementID : settlements.keySet()) {
             Settlement settlement = settlements.get(settlementID);
             int xA = settlement.getArea().getxA();

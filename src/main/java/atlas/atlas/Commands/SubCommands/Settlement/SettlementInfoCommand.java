@@ -10,6 +10,7 @@ import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -41,9 +42,10 @@ public class SettlementInfoCommand extends SubCommand {
     public void openSettlementInfo(Settlement settlement, Player player) {
         Inventory settlementInfoMenu = Bukkit.createInventory(null, 45, "Settlement Info");
 
-        ItemStack info = new ItemStack(Material.BOOK);
+        ItemStack info = new ItemStack(settlement.getBanner());
         ItemMeta infoMeta = info.getItemMeta();
-        infoMeta.setDisplayName(settlement.getName());
+        infoMeta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
+        infoMeta.setDisplayName("§r" + settlement.getName());
         List<String> lore = new ArrayList<>();
         DecimalFormat decimalFormat = new DecimalFormat("0.00");
         lore.add("§fLeader: " + Bukkit.getOfflinePlayer(settlement.getLeader()).getName());

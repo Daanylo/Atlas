@@ -6,11 +6,8 @@ import atlas.atlas.Managers.*;
 import atlas.atlas.Players.NameTag;
 import atlas.atlas.TabCompleters.AdminTabCompleter;
 import atlas.atlas.TabCompleters.MarketTabCompleter;
-import atlas.atlas.Utils.AtlasPlayerUtil;
-import atlas.atlas.Utils.MarketUtil;
-import atlas.atlas.Utils.SettlementUtil;
+import atlas.atlas.Utils.*;
 import atlas.atlas.TabCompleters.SettlementTabCompleter;
-import atlas.atlas.Utils.SpawnUtil;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import org.bukkit.Bukkit;
@@ -27,6 +24,7 @@ public final class Atlas extends JavaPlugin {
     public AtlasPlayerManager atlasPlayerManager;
     public SpawnManager spawnManager;
     public ProtocolManager protocolManager;
+    public MessageManager messageManager;
     @Override
     public void onEnable() {
 
@@ -38,6 +36,7 @@ public final class Atlas extends JavaPlugin {
         marketManager = new MarketManager();
         atlasPlayerManager = new AtlasPlayerManager();
         protocolManager = ProtocolLibrary.getProtocolManager();
+        messageManager = new MessageManager();
 
 
         //load data files
@@ -50,6 +49,8 @@ public final class Atlas extends JavaPlugin {
         MarketUtil.loadMarkets();
         SpawnUtil.createSpawn();
         SpawnUtil.loadSpawn();
+        MessageUtil.createMessages();
+        MessageUtil.loadMessages();
 
         //register commands
         getCommand("atlas").setExecutor(new CommandHandler());
@@ -73,6 +74,7 @@ public final class Atlas extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new TeleportHandler(), this);
         getServer().getPluginManager().registerEvents(new MarketHandler(), this);
         getServer().getPluginManager().registerEvents(new CompassHandler(), this);
+        getServer().getPluginManager().registerEvents(new MobSpawnerHandler(), this);
 
         for (Player p : Bukkit.getOnlinePlayers()) {
             scoreboardManager.setupScoreboard(p);
@@ -114,5 +116,8 @@ public final class Atlas extends JavaPlugin {
     }
     public SpawnManager getSpawnManager() {
         return spawnManager;
+    }
+    public MessageManager getMessageManager() {
+        return messageManager;
     }
 }

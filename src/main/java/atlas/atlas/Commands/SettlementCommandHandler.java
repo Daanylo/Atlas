@@ -35,6 +35,7 @@ public class SettlementCommandHandler implements CommandExecutor {
         commands.put("info", new SettlementInfoCommand());
         commands.put("donate", new SettlementDonateCommand());
         commands.put("resize", new SettlementResizeCommand());
+        commands.put("setbanner", new SettlementSetBannerCommand());
     }
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
