@@ -57,10 +57,14 @@ public class MessageManager {
                 if (Bukkit.getOnlinePlayers().isEmpty()) {
                     return;
                 }
-                if (time % 60 == 0) {;
+                if (time % 10 == 0) {
                     String question = getRandomKey(questions);
                     setCurrentQuestion(question);
                     Bukkit.broadcastMessage("§b" + question);
+                }
+                if (time % 5 == 0 && time % 10 != 0 && time != 0 && getCurrentQuestion() != null) {
+                    Bukkit.broadcastMessage("§8§lSadly nobody got the answer.\n§eThe correct answer was \"" + getCurrentAnswers().get(0) + "\"");
+                    setCurrentQuestion(null);
                 }
                 time++;
             }
